@@ -421,8 +421,12 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         if (!mIsRecording) {
             setUpMediaRecorder(path, maxDuration, maxFileSize, recordAudio, profile);
             try {
+//                mMediaRecorder.setVideoFrameRate(20);
+//                mMediaRecorder.setVideoEncodingBitRate(1500 * 1000);
+//                mMediaRecorder.setAudioEncodingBitRate(128 * 1000);
                 mMediaRecorder.prepare();
                 mMediaRecorder.start();
+
                 mIsRecording = true;
                 return true;
             } catch (IOException e) {
@@ -797,6 +801,15 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
             mMediaRecorder.setMaxFileSize(maxFileSize);
         }
 
+        if (profile.audioBitRate != -1){
+            mMediaRecorder.setAudioEncodingBitRate(profile.audioBitRate);
+        }
+        if(profile.videoBitRate != -1){
+            mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
+        }
+        if(profile.videoFrameRate != -1){
+            mMediaRecorder.setVideoFrameRate(profile.videoFrameRate);
+        }
         mMediaRecorder.setOnInfoListener(this);
         mMediaRecorder.setOnErrorListener(this);
     }

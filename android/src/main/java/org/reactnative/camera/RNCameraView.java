@@ -232,12 +232,16 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       String path = options.hasKey("path") ? options.getString("path") : RNFileUtils.getOutputFilePath(cacheDirectory, ".mp4");
       int maxDuration = options.hasKey("maxDuration") ? options.getInt("maxDuration") : -1;
       int maxFileSize = options.hasKey("maxFileSize") ? options.getInt("maxFileSize") : -1;
-
+      int audioBitRate = options.hasKey("audioBitRate") ? options.getInt("audioBitRate") : -1;
+      int videoBitRate = options.hasKey("videoBitRate") ? options.getInt("videoBitRate") : -1;
+      int videoFrameRate = options.hasKey("videoFrameRate") ? options.getInt("videoFrameRate") : -1;
       CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
       if (options.hasKey("quality")) {
         profile = RNCameraViewHelper.getCamcorderProfile(options.getInt("quality"));
       }
-
+      profile.audioBitRate = audioBitRate;
+      profile.videoBitRate = videoBitRate;
+      profile.videoFrameRate = videoFrameRate;
       boolean recordAudio = !options.hasKey("mute");
 
       if (super.record(path, maxDuration * 1000, maxFileSize, recordAudio, profile)) {
